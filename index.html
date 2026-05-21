@@ -3,257 +3,266 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Propix Agent — App inmobiliaria</title>
-  <meta name="theme-color" content="#08111E" />
+  <title>Propix Agent — Centro inmobiliario</title>
+  <meta name="theme-color" content="#071015" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="ambient"></div>
+  <div class="app-bg"></div>
 
-  <main class="phone-app">
-    <header class="app-header">
-      <button class="avatar-btn" aria-label="Perfil">
-        <span>P</span>
-      </button>
-
-      <div class="header-title">
+  <aside class="desktop-sidebar">
+    <div class="brand">
+      <div class="brand-mark">P</div>
+      <div>
         <strong>Propix Agent</strong>
-        <small>Panamá · En vivo</small>
+        <span>Real Estate OS</span>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+      <button class="nav-btn active" data-view="dashboard">
+        <span>⌂</span> Dashboard
+      </button>
+      <button class="nav-btn" data-view="properties">
+        <span>▧</span> Propiedades
+      </button>
+      <button class="nav-btn" data-view="clients">
+        <span>◉</span> Clientes
+      </button>
+      <button class="nav-btn" data-view="visits">
+        <span>◷</span> Visitas
+      </button>
+      <button class="nav-btn" data-view="assistant">
+        <span>✦</span> IA Agent
+      </button>
+    </nav>
+
+    <div class="sidebar-card">
+      <span class="mini-label">Modo Pro</span>
+      <h3>Trabaja como marca premium.</h3>
+      <p>Fichas vivas, WhatsApp listo y seguimiento inteligente.</p>
+    </div>
+  </aside>
+
+  <main class="app-shell">
+    <header class="top-appbar">
+      <div class="mobile-brand">
+        <div class="brand-mark small">P</div>
+        <div>
+          <strong>Propix Agent</strong>
+          <span>Panamá</span>
+        </div>
       </div>
 
-      <div class="header-actions">
-        <button class="round-btn" id="themeToggle">◐</button>
-        <button class="round-btn alert-dot">⌁</button>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Cambiar tema">◐</button>
+        <button class="primary-btn compact" id="quickAddBtn">+ Nueva</button>
       </div>
     </header>
 
-    <section class="view active" id="home">
-      <div class="today-card">
-        <div class="today-copy">
-          <span class="pill live">Centro de mando</span>
-          <h1>Hoy tienes trabajo que cerrar.</h1>
-          <p>4 visitas, 7 seguimientos y 2 propiedades sin actualizar.</p>
+    <section class="view active" id="dashboard">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">Panamá · Agent Workspace</span>
+          <h1>Tu centro de mando inmobiliario.</h1>
+          <p>Organiza propiedades, clientes, visitas y seguimientos con una experiencia que se siente como app, rápida y lista para WhatsApp.</p>
         </div>
-
-        <div class="today-stack">
-          <div class="mini-stat">
-            <b>4</b>
-            <span>visitas</span>
+        <div class="hero-phone">
+          <div class="phone-top"></div>
+          <div class="phone-card">
+            <span>Ficha viva</span>
+            <strong>PH Costa del Este</strong>
+            <small>$1,850/mes · Disponible</small>
           </div>
-          <div class="mini-stat">
-            <b>7</b>
-            <span>leads</span>
+          <div class="phone-metrics">
+            <div><b>18</b><span>leads</span></div>
+            <div><b>4</b><span>visitas</span></div>
           </div>
         </div>
       </div>
 
-      <div class="quick-grid">
-        <button class="quick-action open-sheet" data-sheet="property">
-          <span>＋</span>
-          <b>Propiedad</b>
-          <small>crear ficha</small>
-        </button>
-        <button class="quick-action" data-go="clients">
-          <span>◎</span>
-          <b>Cliente</b>
-          <small>nuevo lead</small>
-        </button>
-        <button class="quick-action" data-go="visits">
-          <span>◷</span>
-          <b>Visita</b>
-          <small>agenda</small>
-        </button>
-        <button class="quick-action" data-go="ai">
-          <span>✦</span>
-          <b>IA</b>
-          <small>texto rápido</small>
-        </button>
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>Propiedades activas</span>
+          <strong id="statProperties">24</strong>
+          <small>+3 esta semana</small>
+        </article>
+        <article class="stat-card">
+          <span>Clientes activos</span>
+          <strong id="statClients">18</strong>
+          <small>7 requieren seguimiento</small>
+        </article>
+        <article class="stat-card">
+          <span>Visitas de hoy</span>
+          <strong>4</strong>
+          <small>2 confirmadas</small>
+        </article>
+        <article class="stat-card">
+          <span>Comisión estimada</span>
+          <strong>$9.8k</strong>
+          <small>proyección del mes</small>
+        </article>
       </div>
 
-      <section class="app-section">
-        <div class="section-head">
-          <div>
-            <small>Prioridad</small>
-            <h2>Seguimientos pendientes</h2>
+      <div class="content-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <span class="mini-label">Inventario</span>
+              <h2>Listas para compartir</h2>
+            </div>
+            <button class="ghost-btn" data-view-jump="properties">Ver todas</button>
           </div>
-          <button class="text-btn" data-go="clients">Ver</button>
-        </div>
+          <div class="property-list" id="dashboardProperties"></div>
+        </section>
 
-        <div class="lead-card hot">
-          <div class="lead-main">
-            <span class="lead-status">🔥 Caliente</span>
-            <h3>María González</h3>
-            <p>Busca alquiler en Costa del Este · $1,500 - $2,000</p>
-          </div>
-          <button class="send-btn" id="smartFollowBtn">Mensaje</button>
-        </div>
-
-        <div class="lead-card">
-          <div class="lead-main">
-            <span class="lead-status calm">Nuevo</span>
-            <h3>Carlos Medina</h3>
-            <p>Compra para inversión · San Francisco / El Cangrejo</p>
-          </div>
-          <button class="send-btn secondary">Abrir</button>
-        </div>
-      </section>
-
-      <section class="app-section">
-        <div class="section-head">
-          <div>
-            <small>Inventario</small>
-            <h2>Propiedades listas</h2>
-          </div>
-          <button class="text-btn" data-go="properties">Todas</button>
-        </div>
-
-        <div class="snap-row" id="homeProperties"></div>
-      </section>
+        <section class="panel glow-panel">
+          <span class="mini-label">Acción sugerida</span>
+          <h2>María busca alquiler en Costa del Este.</h2>
+          <p>Hay una propiedad que encaja con su presupuesto y zona. Envíale una ficha viva por WhatsApp antes de que se enfríe el lead.</p>
+          <button class="primary-btn" id="sendSuggestionBtn">Generar mensaje</button>
+          <div class="message-preview" id="suggestedMessage"></div>
+        </section>
+      </div>
     </section>
 
     <section class="view" id="properties">
-      <div class="screen-title">
-        <span>Inventario</span>
-        <h1>Propiedades</h1>
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">Inventario</span>
+          <h1>Propiedades</h1>
+          <p>Controla precio, estado, datos clave, ficha pública y mensaje de WhatsApp.</p>
+        </div>
+        <button class="primary-btn open-modal">+ Propiedad</button>
       </div>
 
-      <div class="search-box">
-        <span>⌕</span>
-        <input id="propertySearch" placeholder="Buscar por zona, precio o estado..." />
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="Alquiler">Alquiler</button>
+        <button class="filter-btn" data-filter="Venta">Venta</button>
+        <button class="filter-btn" data-filter="Disponible">Disponible</button>
       </div>
 
-      <div class="chip-row">
-        <button class="chip active" data-filter="all">Todas</button>
-        <button class="chip" data-filter="Alquiler">Alquiler</button>
-        <button class="chip" data-filter="Venta">Venta</button>
-        <button class="chip" data-filter="Disponible">Disponible</button>
-      </div>
-
-      <div class="property-feed" id="propertyFeed"></div>
+      <div class="property-board" id="propertyBoard"></div>
     </section>
 
     <section class="view" id="clients">
-      <div class="screen-title">
-        <span>CRM</span>
-        <h1>Clientes</h1>
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">CRM</span>
+          <h1>Clientes</h1>
+          <p>Presupuesto, zona, estado y próximo paso para nunca perder un lead.</p>
+        </div>
+        <button class="primary-btn">+ Cliente</button>
       </div>
 
-      <div class="pipeline">
-        <div><b>8</b><small>Nuevos</small></div>
-        <div><b>6</b><small>Interesados</small></div>
-        <div><b>3</b><small>Negociando</small></div>
-      </div>
-
-      <div class="client-feed" id="clientFeed"></div>
+      <div class="client-grid" id="clientGrid"></div>
     </section>
 
     <section class="view" id="visits">
-      <div class="screen-title">
-        <span>Agenda</span>
-        <h1>Visitas</h1>
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">Agenda</span>
+          <h1>Visitas</h1>
+          <p>Una vista clara de llamadas, recorridos, firmas y seguimientos.</p>
+        </div>
       </div>
 
-      <div class="date-strip">
-        <button>Hoy</button>
-        <button>Mañana</button>
-        <button>Sábado</button>
-        <button>Semana</button>
-      </div>
-
-      <div class="visit-list">
-        <article class="visit-card">
-          <time>10:00 AM</time>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span>10:00 AM</span>
           <div>
-            <h3>PH Costa del Este</h3>
-            <p>María González · Confirmada</p>
+            <h3>Visita PH Costa del Este</h3>
+            <p>Cliente: María González · Confirmada por WhatsApp</p>
           </div>
-          <span class="visit-dot"></span>
-        </article>
-        <article class="visit-card">
-          <time>1:30 PM</time>
+        </div>
+        <div class="timeline-item">
+          <span>1:30 PM</span>
           <div>
             <h3>Llamada inversionista</h3>
-            <p>Carlos Medina · Revisar opciones</p>
+            <p>Cliente: Carlos Medina · Revisar opciones en San Francisco</p>
           </div>
-          <span class="visit-dot blue"></span>
-        </article>
-        <article class="visit-card">
-          <time>4:00 PM</time>
+        </div>
+        <div class="timeline-item">
+          <span>4:00 PM</span>
           <div>
-            <h3>Seguimiento oficina</h3>
-            <p>Ana Rivera · Enviar comparación</p>
+            <h3>Seguimiento post-visita</h3>
+            <p>Cliente: Ana Rivera · Enviar comparación de oficinas</p>
           </div>
-          <span class="visit-dot gold"></span>
-        </article>
+        </div>
       </div>
     </section>
 
-    <section class="view" id="ai">
-      <div class="screen-title">
-        <span>IA Agent</span>
-        <h1>Asistente</h1>
+    <section class="view" id="assistant">
+      <div class="page-title">
+        <div>
+          <span class="eyebrow">IA Agent</span>
+          <h1>Asistente inmobiliario</h1>
+          <p>Genera descripciones, mensajes, fichas y seguimientos con tono profesional.</p>
+        </div>
       </div>
 
-      <div class="assistant-card">
-        <div class="assistant-orb">✦</div>
-        <h2>Convierte datos sueltos en una presentación profesional.</h2>
-        <p>Ideal para WhatsApp, Instagram, ficha pública o cliente inversionista.</p>
+      <div class="ai-layout">
+        <div class="panel">
+          <h2>Generador de texto</h2>
+          <label class="field">
+            <span>Datos rápidos de la propiedad</span>
+            <textarea id="aiInput" placeholder="Ej. Apartamento 2 recámaras en San Francisco, $1,200, cerca de Parque Omar..."></textarea>
+          </label>
+          <div class="tone-grid">
+            <button class="tone-btn active" data-tone="premium">Premium</button>
+            <button class="tone-btn" data-tone="whatsapp">WhatsApp</button>
+            <button class="tone-btn" data-tone="inversionista">Inversionista</button>
+          </div>
+          <button class="primary-btn" id="generateAiBtn">Generar demo</button>
+        </div>
+
+        <div class="panel result-panel">
+          <span class="mini-label">Resultado</span>
+          <div id="aiOutput">
+            Escribe datos de una propiedad y genera un texto listo para publicar o enviar.
+          </div>
+        </div>
       </div>
-
-      <label class="input-block">
-        <span>Datos rápidos</span>
-        <textarea id="aiInput" placeholder="Ej. Apartamento 2 recámaras en San Francisco, $1,200, cerca de Parque Omar..."></textarea>
-      </label>
-
-      <div class="tone-row">
-        <button class="tone active" data-tone="premium">Premium</button>
-        <button class="tone" data-tone="whatsapp">WhatsApp</button>
-        <button class="tone" data-tone="investor">Inversión</button>
-      </div>
-
-      <button class="main-action" id="generateText">Generar texto</button>
-
-      <div class="output-card" id="aiOutput">El texto generado aparecerá aquí.</div>
     </section>
   </main>
 
-  <nav class="tabbar">
-    <button class="tab active" data-view="home"><span>⌂</span><small>Inicio</small></button>
-    <button class="tab" data-view="properties"><span>▧</span><small>Props</small></button>
-    <button class="tab" data-view="clients"><span>◎</span><small>Clientes</small></button>
-    <button class="tab" data-view="visits"><span>◷</span><small>Visitas</small></button>
-    <button class="tab" data-view="ai"><span>✦</span><small>IA</small></button>
+  <nav class="bottom-nav">
+    <button class="bottom-btn active" data-view="dashboard"><span>⌂</span><small>Inicio</small></button>
+    <button class="bottom-btn" data-view="properties"><span>▧</span><small>Props</small></button>
+    <button class="bottom-btn" data-view="clients"><span>◉</span><small>Clientes</small></button>
+    <button class="bottom-btn" data-view="visits"><span>◷</span><small>Visitas</small></button>
+    <button class="bottom-btn" data-view="assistant"><span>✦</span><small>IA</small></button>
   </nav>
 
-  <div class="desktop-rail">
-    <button class="rail active" data-view="home"><span>⌂</span>Inicio</button>
-    <button class="rail" data-view="properties"><span>▧</span>Propiedades</button>
-    <button class="rail" data-view="clients"><span>◎</span>Clientes</button>
-    <button class="rail" data-view="visits"><span>◷</span>Visitas</button>
-    <button class="rail" data-view="ai"><span>✦</span>IA Agent</button>
-  </div>
-
-  <div class="sheet" id="propertySheet">
-    <div class="sheet-card">
-      <div class="grabber"></div>
-      <div class="sheet-head">
+  <div class="modal" id="propertyModal">
+    <div class="modal-card">
+      <div class="modal-head">
         <div>
-          <span>Nueva propiedad</span>
+          <span class="mini-label">Nueva propiedad</span>
           <h2>Crear ficha rápida</h2>
         </div>
-        <button class="round-btn close-sheet">×</button>
+        <button class="icon-btn close-modal">×</button>
       </div>
 
-      <label class="input-block"><span>Título</span><input id="newTitle" placeholder="Apartamento en Punta Pacífica"></label>
-      <label class="input-block"><span>Ubicación</span><input id="newLocation" placeholder="Punta Pacífica, Panamá"></label>
-      <label class="input-block"><span>Precio</span><input id="newPrice" placeholder="$1,500/mes"></label>
+      <div class="form-grid">
+        <label class="field"><span>Título</span><input id="newTitle" placeholder="Ej. Apartamento en Punta Pacífica"></label>
+        <label class="field"><span>Ubicación</span><input id="newLocation" placeholder="Ej. Punta Pacífica, Panamá"></label>
+        <label class="field"><span>Precio</span><input id="newPrice" placeholder="$1,500/mes"></label>
+        <label class="field"><span>Operación</span>
+          <select id="newOperation">
+            <option>Alquiler</option>
+            <option>Venta</option>
+          </select>
+        </label>
+      </div>
 
-      <button class="main-action" id="saveProperty">Guardar demo</button>
+      <button class="primary-btn full" id="savePropertyBtn">Guardar demo</button>
     </div>
   </div>
 
-  <div class="toast" id="toast">Listo</div>
+  <div class="toast" id="toast">Propiedad creada en modo demo</div>
 
   <script src="app.js"></script>
 </body>

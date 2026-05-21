@@ -1,21 +1,32 @@
-# Propix Agent HTML v2
+# Propix Agent HTML
 
-Versión más parecida a una app y menos a una plantilla.
+Versión HTML/CSS/JS pura para PC y móviles.
 
-## Cambios
+## Cómo abrir
 
-- Eliminado el fondo de cuadritos.
-- Interfaz más tipo app nativa.
-- Navegación inferior en móvil.
-- Rail lateral compacto en PC.
-- Home con tareas reales del agente.
-- Propiedades en feed visual.
-- Clientes estilo CRM móvil.
-- Agenda y asistente IA demo.
-- Bottom sheet para crear propiedad.
-- Diseño responsive para móvil y escritorio.
+1. Descomprime el ZIP.
+2. Abre `index.html` con doble clic.
+3. También puedes subir la carpeta completa a Netlify, Vercel, Hostinger, cPanel o cualquier hosting estático.
 
-## Uso
+## Archivos
 
-Abre `index.html` con doble clic.
-No necesita Node.js ni npm.
+- `index.html` — estructura principal.
+- `style.css` — diseño responsive premium.
+- `app.js` — navegación, demo de propiedades, clientes, IA demo y WhatsApp.
+- `manifest.json` — base para que se sienta como app/PWA.
+
+## Qué incluye
+
+- Dashboard.
+- Propiedades.
+- Clientes.
+- Visitas.
+- IA Agent demo.
+- Modo oscuro/claro.
+- Fichas demo.
+- Copiar mensaje para WhatsApp.
+- Diseño responsive para móvil y PC.
+
+## Nota
+
+Esta versión no necesita Node.js ni npm.

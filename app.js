@@ -1,114 +1,181 @@
 const properties = [
   {
-    id:"p1",
-    title:"PH Costa del Este",
-    location:"Costa del Este",
-    operation:"Alquiler",
-    price:"$1,850/mes",
-    beds:2,baths:2,parking:2,meters:118,status:"Disponible",
-    img:"url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop')"
+    id: "costa-del-este-1204",
+    title: "Apartamento premium en Costa del Este",
+    location: "Costa del Este, Panamá",
+    operation: "Alquiler",
+    price: "$1,850/mes",
+    beds: 2,
+    baths: 2,
+    parking: 2,
+    meters: 118,
+    status: "Disponible",
+    img: "url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop')"
   },
   {
-    id:"p2",
-    title:"Apartamento Parque Omar",
-    location:"San Francisco",
-    operation:"Venta",
-    price:"$245,000",
-    beds:3,baths:2,parking:2,meters:142,status:"Disponible",
-    img:"url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1200&auto=format&fit=crop')"
+    id: "san-francisco-park-view",
+    title: "PH familiar cerca de Parque Omar",
+    location: "San Francisco, Panamá",
+    operation: "Venta",
+    price: "$245,000",
+    beds: 3,
+    baths: 2,
+    parking: 2,
+    meters: 142,
+    status: "Disponible",
+    img: "url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1200&auto=format&fit=crop')"
   },
   {
-    id:"p3",
-    title:"Oficina lista Obarrio",
-    location:"Obarrio",
-    operation:"Alquiler",
-    price:"$1,200/mes",
-    beds:0,baths:1,parking:1,meters:78,status:"Reservado",
-    img:"url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop')"
+    id: "oficina-obarrio-ready",
+    title: "Oficina lista para ocupar en Obarrio",
+    location: "Obarrio, Panamá",
+    operation: "Alquiler",
+    price: "$1,200/mes",
+    beds: 0,
+    baths: 1,
+    parking: 1,
+    meters: 78,
+    status: "Reservado",
+    img: "url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop')"
   }
 ];
 
 const clients = [
-  {name:"María González", phone:"+507 6000-0001", status:"Interesado", looking:"Alquiler 2 recámaras", zone:"Costa del Este", budget:"$1,500 - $2,000", next:"Enviar ficha de PH Costa del Este"},
-  {name:"Carlos Medina", phone:"+507 6000-0002", status:"Nuevo", looking:"Compra inversión", zone:"San Francisco", budget:"$220k - $280k", next:"Calificar banco y retorno"},
-  {name:"Ana Rivera", phone:"+507 6000-0003", status:"Visitó", looking:"Oficina pequeña", zone:"Obarrio", budget:"$900 - $1,300", next:"Enviar comparación"},
-  {name:"Luis Paredes", phone:"+507 6000-0004", status:"Negociación", looking:"Apartamento ejecutivo", zone:"Punta Pacífica", budget:"$2,000 - $2,800", next:"Confirmar visita sábado"}
+  {
+    name: "María González",
+    phone: "+507 6000-0001",
+    budget: "$1,500 - $2,000",
+    looking: "Apartamento 2 recámaras",
+    zone: "Costa del Este / San Francisco",
+    status: "Interesado",
+    next: "Enviar 3 opciones hoy"
+  },
+  {
+    name: "Carlos Medina",
+    phone: "+507 6000-0002",
+    budget: "$220k - $280k",
+    looking: "Compra para inversión",
+    zone: "San Francisco / El Cangrejo",
+    status: "Nuevo",
+    next: "Calificar presupuesto y banco"
+  },
+  {
+    name: "Ana Rivera",
+    phone: "+507 6000-0003",
+    budget: "$900 - $1,300",
+    looking: "Oficina pequeña",
+    zone: "Obarrio / Marbella",
+    status: "Visitó",
+    next: "Seguimiento post-visita"
+  },
+  {
+    name: "Luis Paredes",
+    phone: "+507 6000-0004",
+    budget: "$2,000 - $2,800",
+    looking: "Apartamento ejecutivo",
+    zone: "Punta Pacífica",
+    status: "Negociación",
+    next: "Confirmar visita sábado"
+  }
 ];
 
-let filter = "all";
-let tone = "premium";
+let currentFilter = "all";
+let currentTone = "premium";
 
-function messageFor(p){
-  return `Hola, te comparto esta propiedad: ${p.title} en ${p.location}. ${p.beds} recámaras, ${p.baths} baños, ${p.parking} estacionamientos y ${p.meters} m². Precio: ${p.price}. ¿Deseas coordinar una visita?`;
+function moneyMessage(property){
+  return `Hola, te comparto esta propiedad que puede interesarte: ${property.title}, ubicada en ${property.location}. Tiene ${property.beds} recámaras, ${property.baths} baños, ${property.parking} estacionamientos y ${property.meters} m². Precio: ${property.price}. ¿Deseas que coordinemos una visita?`;
 }
 
-function propertyCard(p, wide=false){
+function renderPropertyRow(property){
   return `
-    <article class="property-card ${wide ? "wide" : ""}">
-      <div class="property-photo" style="--img:${p.img}">
-        <span class="pill photo-badge">${p.status}</span>
+    <article class="property-row">
+      <div class="prop-image" style="--img:${property.img}"></div>
+      <div class="prop-info">
+        <span class="badge">${property.status}</span>
+        <h3>${property.title}</h3>
+        <p>${property.location} · ${property.operation} · ${property.meters} m²</p>
+        <p>${property.beds} rec. · ${property.baths} baños · ${property.parking} est.</p>
       </div>
-      <div class="price">${p.price}</div>
-      <h3>${p.title}</h3>
-      <p>${p.location} · ${p.operation}</p>
-      <div class="property-meta">
-        <span>${p.beds} rec.</span>
-        <span>${p.baths} baños</span>
-        <span>${p.parking} est.</span>
-        <span>${p.meters} m²</span>
-      </div>
-      <div class="card-actions">
-        <button class="small-btn primary" onclick="copyWhatsApp('${p.id}')">WhatsApp</button>
-        <button class="small-btn" onclick="openFicha('${p.id}')">Ficha</button>
+      <div>
+        <div class="price">${property.price}</div>
+        <div class="card-actions">
+          <button class="small-btn" onclick="copyMessage('${property.id}')">WhatsApp</button>
+          <button class="small-btn" onclick="openFicha('${property.id}')">Ficha</button>
+        </div>
       </div>
     </article>
   `;
 }
 
-function clientCard(c){
+function renderPropertyCard(property){
+  return `
+    <article class="property-card">
+      <div class="prop-image" style="--img:${property.img}">
+        <span class="badge" style="position:absolute;left:13px;top:13px">${property.status}</span>
+      </div>
+      <div class="prop-info">
+        <h3>${property.title}</h3>
+        <p>${property.location}</p>
+        <p>${property.beds} rec. · ${property.baths} baños · ${property.parking} est. · ${property.meters} m²</p>
+      </div>
+      <div class="price">${property.price}</div>
+      <div class="card-actions">
+        <button class="small-btn" onclick="copyMessage('${property.id}')">Mensaje</button>
+        <button class="small-btn" onclick="openFicha('${property.id}')">Ver ficha</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderClient(client){
   return `
     <article class="client-card">
       <div class="client-top">
         <div>
-          <h3>${c.name}</h3>
-          <p>${c.phone}</p>
+          <h3>${client.name}</h3>
+          <p>${client.phone}</p>
         </div>
-        <span class="status">${c.status}</span>
+        <span class="badge">${client.status}</span>
       </div>
-      <p><b>Busca:</b> ${c.looking}</p>
-      <p><b>Zona:</b> ${c.zone}</p>
-      <p><b>Presupuesto:</b> ${c.budget}</p>
-      <p style="margin-top:10px;color:var(--gold)"><b>Próximo:</b> ${c.next}</p>
+      <p><b>Busca:</b> ${client.looking}</p>
+      <p><b>Zona:</b> ${client.zone}</p>
+      <p><b>Presupuesto:</b> ${client.budget}</p>
+      <p style="color:var(--gold);margin-top:12px"><b>Próximo paso:</b> ${client.next}</p>
     </article>
   `;
 }
 
-function render(){
-  const home = document.getElementById("homeProperties");
-  const feed = document.getElementById("propertyFeed");
-  const clientFeed = document.getElementById("clientFeed");
-  const q = (document.getElementById("propertySearch")?.value || "").toLowerCase();
+function renderAll(){
+  const dashboardProperties = document.getElementById("dashboardProperties");
+  const propertyBoard = document.getElementById("propertyBoard");
+  const clientGrid = document.getElementById("clientGrid");
 
-  if(home) home.innerHTML = properties.map(p => propertyCard(p)).join("");
-
-  if(feed){
-    const list = properties.filter(p => {
-      const okFilter = filter === "all" || p.operation === filter || p.status === filter;
-      const text = `${p.title} ${p.location} ${p.price} ${p.status} ${p.operation}`.toLowerCase();
-      return okFilter && text.includes(q);
-    });
-    feed.innerHTML = list.map(p => propertyCard(p,true)).join("");
+  if(dashboardProperties){
+    dashboardProperties.innerHTML = properties.slice(0,3).map(renderPropertyRow).join("");
   }
 
-  if(clientFeed) clientFeed.innerHTML = clients.map(clientCard).join("");
+  if(propertyBoard){
+    const filtered = properties.filter(p => {
+      if(currentFilter === "all") return true;
+      return p.operation === currentFilter || p.status === currentFilter;
+    });
+    propertyBoard.innerHTML = filtered.map(renderPropertyCard).join("");
+  }
+
+  if(clientGrid){
+    clientGrid.innerHTML = clients.map(renderClient).join("");
+  }
+
+  document.getElementById("statProperties").textContent = properties.length + 21;
+  document.getElementById("statClients").textContent = clients.length + 14;
 }
 
-function setView(view){
+function setView(viewName){
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.getElementById(view).classList.add("active");
+  document.getElementById(viewName)?.classList.add("active");
 
   document.querySelectorAll("[data-view]").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.view === view);
+    btn.classList.toggle("active", btn.dataset.view === viewName);
   });
 
   window.scrollTo({top:0, behavior:"smooth"});
@@ -118,136 +185,147 @@ document.querySelectorAll("[data-view]").forEach(btn => {
   btn.addEventListener("click", () => setView(btn.dataset.view));
 });
 
-document.querySelectorAll("[data-go]").forEach(btn => {
-  btn.addEventListener("click", () => setView(btn.dataset.go));
+document.querySelectorAll("[data-view-jump]").forEach(btn => {
+  btn.addEventListener("click", () => setView(btn.dataset.viewJump));
 });
 
-document.querySelectorAll(".chip").forEach(btn => {
+document.querySelectorAll(".filter-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    filter = btn.dataset.filter;
-    render();
+    currentFilter = btn.dataset.filter;
+    renderAll();
   });
 });
 
-document.querySelectorAll(".tone").forEach(btn => {
+document.querySelectorAll(".tone-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tone").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tone-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    tone = btn.dataset.tone;
+    currentTone = btn.dataset.tone;
   });
 });
-
-document.getElementById("propertySearch").addEventListener("input", render);
 
 document.getElementById("themeToggle").addEventListener("click", () => {
-  const light = document.documentElement.dataset.theme === "light";
-  document.documentElement.dataset.theme = light ? "" : "light";
+  const isLight = document.documentElement.dataset.theme === "light";
+  document.documentElement.dataset.theme = isLight ? "dark" : "light";
 });
 
-document.getElementById("smartFollowBtn").addEventListener("click", () => {
-  copyText("Hola María, buen día. Te comparto una opción en Costa del Este que encaja con lo que estás buscando. Si te parece bien, puedo coordinarte una visita esta semana.");
-  toast("Mensaje de seguimiento copiado");
+document.getElementById("sendSuggestionBtn").addEventListener("click", () => {
+  const property = properties[0];
+  document.getElementById("suggestedMessage").textContent = moneyMessage(property);
 });
 
-function copyWhatsApp(id){
-  const p = properties.find(x => x.id === id);
-  copyText(messageFor(p));
-  toast("Mensaje copiado para WhatsApp");
-}
-
-function copyText(text){
-  if(navigator.clipboard) navigator.clipboard.writeText(text);
+function copyMessage(id){
+  const property = properties.find(p => p.id === id);
+  const msg = moneyMessage(property);
+  navigator.clipboard?.writeText(msg);
+  showToast("Mensaje copiado para WhatsApp");
 }
 
 function openFicha(id){
-  const p = properties.find(x => x.id === id);
-  const msg = encodeURIComponent(messageFor(p));
-  const win = window.open("", "_blank", "width=430,height=760");
-  win.document.write(`
+  const property = properties.find(p => p.id === id);
+  const msg = encodeURIComponent(moneyMessage(property));
+  const ficha = `
+${property.title}
+${property.location}
+
+${property.price}
+${property.beds} recámaras · ${property.baths} baños · ${property.parking} estacionamientos · ${property.meters} m²
+
+${moneyMessage(property)}
+  `.trim();
+
+  const popup = window.open("", "_blank", "width=420,height=720");
+  popup.document.write(`
     <html>
     <head>
-      <title>${p.title}</title>
+      <title>${property.title}</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
-        body{margin:0;background:#07111F;color:#fff;font-family:Inter,system-ui,sans-serif;padding:14px}
-        .card{overflow:hidden;border-radius:30px;background:#13263D;border:1px solid rgba(255,255,255,.12)}
-        .img{height:310px;background:${p.img};background-size:cover;background-position:center}
+        body{margin:0;background:#071015;color:#fff;font-family:Inter,system-ui,sans-serif;padding:18px}
+        .card{border:1px solid rgba(255,255,255,.14);border-radius:28px;overflow:hidden;background:rgba(255,255,255,.07)}
+        .img{height:260px;background:${property.img};background-size:cover;background-position:center}
         .body{padding:20px}
-        h1{font-size:42px;line-height:.9;letter-spacing:-.075em;margin:0 0 10px}
-        p{color:#94A6BC;line-height:1.55}
-        .price{color:#DBB760;font-size:34px;font-weight:1000}
-        .meta{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-        .meta span{background:rgba(255,255,255,.08);border-radius:999px;padding:8px 10px;color:#94A6BC}
-        a{display:block;text-align:center;text-decoration:none;margin-top:18px;padding:15px;border-radius:18px;background:linear-gradient(135deg,#20E6A3,#4F8DFF);color:#06110F;font-weight:1000}
+        h1{font-size:36px;line-height:.94;letter-spacing:-.07em;margin:0 0 10px}
+        p{color:#9BA8B8;line-height:1.6}
+        .price{font-size:32px;color:#D8B35D;font-weight:1000}
+        a{display:block;text-align:center;margin-top:16px;background:linear-gradient(135deg,#22E6A4,#4D8DFF);color:#05100E;padding:14px;border-radius:16px;text-decoration:none;font-weight:900}
       </style>
     </head>
     <body>
       <div class="card">
         <div class="img"></div>
         <div class="body">
-          <div class="price">${p.price}</div>
-          <h1>${p.title}</h1>
-          <p>${p.location} · ${p.operation}</p>
-          <div class="meta">
-            <span>${p.beds} rec.</span><span>${p.baths} baños</span><span>${p.parking} est.</span><span>${p.meters} m²</span>
-          </div>
-          <p>Ficha demo profesional creada desde Propix Agent. En la versión real esta ficha tendrá link público, PDF y agenda.</p>
-          <a href="https://wa.me/?text=${msg}" target="_blank">Enviar por WhatsApp</a>
+          <h1>${property.title}</h1>
+          <p>${property.location}</p>
+          <div class="price">${property.price}</div>
+          <p>${property.beds} recámaras · ${property.baths} baños · ${property.parking} estacionamientos · ${property.meters} m²</p>
+          <p>Ficha demo creada desde Propix Agent. En la versión real esto será un link público profesional.</p>
+          <a target="_blank" href="https://wa.me/?text=${msg}">Enviar por WhatsApp</a>
         </div>
       </div>
     </body>
     </html>
   `);
-  win.document.close();
+  popup.document.close();
 }
 
-const sheet = document.getElementById("propertySheet");
-document.querySelectorAll(".open-sheet").forEach(btn => {
-  btn.addEventListener("click", () => sheet.classList.add("active"));
+const modal = document.getElementById("propertyModal");
+document.querySelectorAll(".open-modal,#quickAddBtn").forEach(btn => {
+  btn.addEventListener("click", () => modal.classList.add("active"));
 });
-document.querySelector(".close-sheet").addEventListener("click", () => sheet.classList.remove("active"));
-sheet.addEventListener("click", e => {
-  if(e.target === sheet) sheet.classList.remove("active");
+document.querySelector(".close-modal").addEventListener("click", () => modal.classList.remove("active"));
+modal.addEventListener("click", e => {
+  if(e.target === modal) modal.classList.remove("active");
 });
 
-document.getElementById("saveProperty").addEventListener("click", () => {
+document.getElementById("savePropertyBtn").addEventListener("click", () => {
+  const title = document.getElementById("newTitle").value || "Nueva propiedad en Panamá";
+  const location = document.getElementById("newLocation").value || "Panamá";
+  const price = document.getElementById("newPrice").value || "$1,000/mes";
+  const operation = document.getElementById("newOperation").value;
+
   properties.unshift({
-    id:"p"+Date.now(),
-    title:document.getElementById("newTitle").value || "Nueva propiedad en Panamá",
-    location:document.getElementById("newLocation").value || "Panamá",
-    operation:"Alquiler",
-    price:document.getElementById("newPrice").value || "$1,500/mes",
-    beds:2,baths:2,parking:1,meters:95,status:"Disponible",
-    img:"url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop')"
+    id: "demo-" + Date.now(),
+    title,
+    location,
+    operation,
+    price,
+    beds: 2,
+    baths: 2,
+    parking: 1,
+    meters: 95,
+    status: "Disponible",
+    img: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop')"
   });
-  sheet.classList.remove("active");
-  render();
+
+  modal.classList.remove("active");
+  renderAll();
   setView("properties");
-  toast("Propiedad creada");
+  showToast("Propiedad creada en modo demo");
 });
 
-document.getElementById("generateText").addEventListener("click", () => {
-  const input = document.getElementById("aiInput").value.trim() || "Apartamento moderno en Panamá, excelente ubicación, buena iluminación y listo para ocupar.";
-  let out = "";
+document.getElementById("generateAiBtn").addEventListener("click", () => {
+  const input = document.getElementById("aiInput").value.trim() || "Apartamento moderno en Panamá, excelente ubicación, buena iluminación y listo para ocupar";
+  let output = "";
 
-  if(tone === "premium"){
-    out = `Propiedad con presencia, buena distribución y una ubicación estratégica. ${input} Ideal para quienes buscan comodidad, imagen y una experiencia residencial superior.`;
-  } else if(tone === "whatsapp"){
-    out = `Hola, te comparto esta opción: ${input} Si deseas, puedo enviarte la ficha completa o coordinar una visita.`;
+  if(currentTone === "premium"){
+    output = `Propiedad exclusiva con excelente distribución y ubicación estratégica. ${input}. Ideal para clientes que buscan comodidad, presencia y una experiencia residencial superior en Panamá.`;
+  } else if(currentTone === "whatsapp"){
+    output = `Hola, te comparto esta opción que puede interesarte: ${input}. Si deseas, puedo coordinarte una visita y enviarte más detalles.`;
   } else {
-    out = `Oportunidad inmobiliaria para evaluar: ${input} Por ubicación, demanda y potencial de renta, puede ser una opción interesante para inversión.`;
+    output = `Oportunidad para inversión inmobiliaria: ${input}. Su ubicación, perfil de demanda y potencial de renta la convierten en una alternativa atractiva para evaluar retorno y plusvalía.`;
   }
 
-  document.getElementById("aiOutput").textContent = out;
+  document.getElementById("aiOutput").textContent = output;
 });
 
-function toast(text){
-  const el = document.getElementById("toast");
-  el.textContent = text;
-  el.classList.add("show");
-  setTimeout(() => el.classList.remove("show"), 2100);
+function showToast(text){
+  const toast = document.getElementById("toast");
+  toast.textContent = text;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
-render();
+renderAll();
