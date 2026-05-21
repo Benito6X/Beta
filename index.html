@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Propix Agent — App inmobiliaria</title>
+  <meta name="theme-color" content="#08111E" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient"></div>
+
+  <main class="phone-app">
+    <header class="app-header">
+      <button class="avatar-btn" aria-label="Perfil">
+        <span>P</span>
+      </button>
+
+      <div class="header-title">
+        <strong>Propix Agent</strong>
+        <small>Panamá · En vivo</small>
+      </div>
+
+      <div class="header-actions">
+        <button class="round-btn" id="themeToggle">◐</button>
+        <button class="round-btn alert-dot">⌁</button>
+      </div>
+    </header>
+
+    <section class="view active" id="home">
+      <div class="today-card">
+        <div class="today-copy">
+          <span class="pill live">Centro de mando</span>
+          <h1>Hoy tienes trabajo que cerrar.</h1>
+          <p>4 visitas, 7 seguimientos y 2 propiedades sin actualizar.</p>
+        </div>
+
+        <div class="today-stack">
+          <div class="mini-stat">
+            <b>4</b>
+            <span>visitas</span>
+          </div>
+          <div class="mini-stat">
+            <b>7</b>
+            <span>leads</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <button class="quick-action open-sheet" data-sheet="property">
+          <span>＋</span>
+          <b>Propiedad</b>
+          <small>crear ficha</small>
+        </button>
+        <button class="quick-action" data-go="clients">
+          <span>◎</span>
+          <b>Cliente</b>
+          <small>nuevo lead</small>
+        </button>
+        <button class="quick-action" data-go="visits">
+          <span>◷</span>
+          <b>Visita</b>
+          <small>agenda</small>
+        </button>
+        <button class="quick-action" data-go="ai">
+          <span>✦</span>
+          <b>IA</b>
+          <small>texto rápido</small>
+        </button>
+      </div>
+
+      <section class="app-section">
+        <div class="section-head">
+          <div>
+            <small>Prioridad</small>
+            <h2>Seguimientos pendientes</h2>
+          </div>
+          <button class="text-btn" data-go="clients">Ver</button>
+        </div>
+
+        <div class="lead-card hot">
+          <div class="lead-main">
+            <span class="lead-status">🔥 Caliente</span>
+            <h3>María González</h3>
+            <p>Busca alquiler en Costa del Este · $1,500 - $2,000</p>
+          </div>
+          <button class="send-btn" id="smartFollowBtn">Mensaje</button>
+        </div>
+
+        <div class="lead-card">
+          <div class="lead-main">
+            <span class="lead-status calm">Nuevo</span>
+            <h3>Carlos Medina</h3>
+            <p>Compra para inversión · San Francisco / El Cangrejo</p>
+          </div>
+          <button class="send-btn secondary">Abrir</button>
+        </div>
+      </section>
+
+      <section class="app-section">
+        <div class="section-head">
+          <div>
+            <small>Inventario</small>
+            <h2>Propiedades listas</h2>
+          </div>
+          <button class="text-btn" data-go="properties">Todas</button>
+        </div>
+
+        <div class="snap-row" id="homeProperties"></div>
+      </section>
+    </section>
+
+    <section class="view" id="properties">
+      <div class="screen-title">
+        <span>Inventario</span>
+        <h1>Propiedades</h1>
+      </div>
+
+      <div class="search-box">
+        <span>⌕</span>
+        <input id="propertySearch" placeholder="Buscar por zona, precio o estado..." />
+      </div>
+
+      <div class="chip-row">
+        <button class="chip active" data-filter="all">Todas</button>
+        <button class="chip" data-filter="Alquiler">Alquiler</button>
+        <button class="chip" data-filter="Venta">Venta</button>
+        <button class="chip" data-filter="Disponible">Disponible</button>
+      </div>
+
+      <div class="property-feed" id="propertyFeed"></div>
+    </section>
+
+    <section class="view" id="clients">
+      <div class="screen-title">
+        <span>CRM</span>
+        <h1>Clientes</h1>
+      </div>
+
+      <div class="pipeline">
+        <div><b>8</b><small>Nuevos</small></div>
+        <div><b>6</b><small>Interesados</small></div>
+        <div><b>3</b><small>Negociando</small></div>
+      </div>
+
+      <div class="client-feed" id="clientFeed"></div>
+    </section>
+
+    <section class="view" id="visits">
+      <div class="screen-title">
+        <span>Agenda</span>
+        <h1>Visitas</h1>
+      </div>
+
+      <div class="date-strip">
+        <button>Hoy</button>
+        <button>Mañana</button>
+        <button>Sábado</button>
+        <button>Semana</button>
+      </div>
+
+      <div class="visit-list">
+        <article class="visit-card">
+          <time>10:00 AM</time>
+          <div>
+            <h3>PH Costa del Este</h3>
+            <p>María González · Confirmada</p>
+          </div>
+          <span class="visit-dot"></span>
+        </article>
+        <article class="visit-card">
+          <time>1:30 PM</time>
+          <div>
+            <h3>Llamada inversionista</h3>
+            <p>Carlos Medina · Revisar opciones</p>
+          </div>
+          <span class="visit-dot blue"></span>
+        </article>
+        <article class="visit-card">
+          <time>4:00 PM</time>
+          <div>
+            <h3>Seguimiento oficina</h3>
+            <p>Ana Rivera · Enviar comparación</p>
+          </div>
+          <span class="visit-dot gold"></span>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="ai">
+      <div class="screen-title">
+        <span>IA Agent</span>
+        <h1>Asistente</h1>
+      </div>
+
+      <div class="assistant-card">
+        <div class="assistant-orb">✦</div>
+        <h2>Convierte datos sueltos en una presentación profesional.</h2>
+        <p>Ideal para WhatsApp, Instagram, ficha pública o cliente inversionista.</p>
+      </div>
+
+      <label class="input-block">
+        <span>Datos rápidos</span>
+        <textarea id="aiInput" placeholder="Ej. Apartamento 2 recámaras en San Francisco, $1,200, cerca de Parque Omar..."></textarea>
+      </label>
+
+      <div class="tone-row">
+        <button class="tone active" data-tone="premium">Premium</button>
+        <button class="tone" data-tone="whatsapp">WhatsApp</button>
+        <button class="tone" data-tone="investor">Inversión</button>
+      </div>
+
+      <button class="main-action" id="generateText">Generar texto</button>
+
+      <div class="output-card" id="aiOutput">El texto generado aparecerá aquí.</div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-view="home"><span>⌂</span><small>Inicio</small></button>
+    <button class="tab" data-view="properties"><span>▧</span><small>Props</small></button>
+    <button class="tab" data-view="clients"><span>◎</span><small>Clientes</small></button>
+    <button class="tab" data-view="visits"><span>◷</span><small>Visitas</small></button>
+    <button class="tab" data-view="ai"><span>✦</span><small>IA</small></button>
+  </nav>
+
+  <div class="desktop-rail">
+    <button class="rail active" data-view="home"><span>⌂</span>Inicio</button>
+    <button class="rail" data-view="properties"><span>▧</span>Propiedades</button>
+    <button class="rail" data-view="clients"><span>◎</span>Clientes</button>
+    <button class="rail" data-view="visits"><span>◷</span>Visitas</button>
+    <button class="rail" data-view="ai"><span>✦</span>IA Agent</button>
+  </div>
+
+  <div class="sheet" id="propertySheet">
+    <div class="sheet-card">
+      <div class="grabber"></div>
+      <div class="sheet-head">
+        <div>
+          <span>Nueva propiedad</span>
+          <h2>Crear ficha rápida</h2>
+        </div>
+        <button class="round-btn close-sheet">×</button>
+      </div>
+
+      <label class="input-block"><span>Título</span><input id="newTitle" placeholder="Apartamento en Punta Pacífica"></label>
+      <label class="input-block"><span>Ubicación</span><input id="newLocation" placeholder="Punta Pacífica, Panamá"></label>
+      <label class="input-block"><span>Precio</span><input id="newPrice" placeholder="$1,500/mes"></label>
+
+      <button class="main-action" id="saveProperty">Guardar demo</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Listo</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
