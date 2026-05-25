@@ -2,14 +2,12 @@
 <html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
+<meta name="theme-color" content="#03080F"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="format-detection" content="telephone=no,email=no,address=no"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-title" content="Propix HQ"/>
-<meta name="application-name" content="Propix HQ"/>
-<meta name="format-detection" content="telephone=no,email=no,address=no"/>
-<meta name="theme-color" content="#03080F"/>
 <title>Propix HQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -1187,345 +1185,210 @@ body.keyboard-open { position: fixed; width: 100%; left: 0; right: 0; }
 
 
 /* ══════════════════════════════════════
-   PROPIX HQ v5 — gesto para ver imagen completa detrás del login
-   Deslizar hacia abajo oculta el sheet y deja la foto en modo showcase.
-   ══════════════════════════════════════ */
-.login-sheet {
-  transition:
-    transform .48s var(--spring),
-    max-height .38s var(--spring),
-    opacity .24s var(--ease),
-    box-shadow .24s var(--ease) !important;
-  will-change: transform, max-height;
-}
-#s-login.photo-mode .login-sheet {
-  transform: translate3d(0, calc(100% - 72px - env(safe-area-inset-bottom)), 0) !important;
-  max-height: min(620px, 72svh) !important;
-  overflow: hidden !important;
-  box-shadow: 0 -18px 60px rgba(0,0,0,.28) !important;
-}
-#s-login.photo-mode .login-sheet > *:not(.sheet-handle) {
-  opacity: 0;
-  transform: translateY(14px);
-  pointer-events: none;
-  transition: opacity .18s var(--ease), transform .22s var(--ease);
-}
-#s-login.photo-mode .sheet-handle {
-  width: 52px;
-  height: 5px;
-  margin-top: 13px;
-  margin-bottom: 50px;
-  background: rgba(255,255,255,.52);
-  box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 0 18px rgba(255,255,255,.22);
-  position: relative;
-}
-[data-theme="light"] #s-login.photo-mode .sheet-handle {
-  background: rgba(10,22,40,.28);
-}
-#s-login.photo-mode .sheet-handle::after {
-  content: 'Desliza arriba para volver';
-  position: absolute;
-  left: 50%;
-  top: 15px;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 7px 12px;
-  border-radius: var(--r-full);
-  background: rgba(0,0,0,.32);
-  color: rgba(255,255,255,.84);
-  border: 1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  font-family: var(--f-mono);
-  font-size: 10.5px;
-  letter-spacing: .04em;
-  font-weight: 600;
-}
-#s-login.photo-mode .gal-slide::after {
-  background: linear-gradient(
-    180deg,
-    rgba(0,0,0,.10) 0%,
-    rgba(0,0,0,.02) 32%,
-    rgba(0,0,0,.10) 68%,
-    rgba(0,0,0,.48) 100%
-  );
-}
-#s-login.photo-mode .gal-slide img {
-  transform: scale(1.01) !important;
-  object-position: center center;
-}
-#s-login.photo-mode .gal-info {
-  bottom: calc(84px + env(safe-area-inset-bottom));
-  transition: bottom .42s var(--spring), opacity .25s var(--ease), transform .42s var(--spring);
-  transform: translateY(0);
-}
-#s-login.photo-mode .gal-name {
-  text-shadow: 0 3px 18px rgba(0,0,0,.45);
-}
-#s-login.photo-mode .gal-price {
-  box-shadow: 0 8px 22px rgba(0,0,0,.18);
-}
-#s-login.photo-mode .gal-bars {
-  opacity: .72;
-  transition: opacity .2s var(--ease);
-}
-#s-login.photo-mode .gal-hint {
-  opacity: 0 !important;
-  pointer-events: none;
-}
-.gal-hint span { white-space: nowrap; }
-@media (max-height: 680px) {
-  #s-login.photo-mode .login-sheet {
-    transform: translate3d(0, calc(100% - 64px - env(safe-area-inset-bottom)), 0) !important;
-  }
-  #s-login.photo-mode .gal-info { bottom: calc(72px + env(safe-area-inset-bottom)); }
-}
-
-
-
-/* ══════════════════════════════════════
-   PROPIX HQ v6 — Mobile native lock + full-photo login
+   PROPIX HQ v7 — Mobile app shell + sheet nativo sin dañar la calidad
    ══════════════════════════════════════ */
 :root {
   --app-h: 100svh;
   --app-w: 100dvw;
-  --keyboard-h: 0px;
-  --login-peek: 34px;
+  --sheet-drag-y: 0px;
+  --login-peek: 56px;
 }
+@supports (height: 100dvh) { :root { --app-h: 100dvh; } }
 html {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  overscroll-behavior: none;
+  width: 100%; height: 100%;
+  overflow: hidden; overscroll-behavior: none;
   -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
   background: #03080F;
 }
 body {
-  width: 100%;
-  height: var(--app-h, 100svh) !important;
-  min-height: var(--app-h, 100svh) !important;
-  max-height: var(--app-h, 100svh) !important;
+  width: 100%; height: var(--app-h) !important;
+  min-height: var(--app-h) !important;
+  max-height: var(--app-h) !important;
   overflow: hidden !important;
+  position: fixed; inset: 0;
   overscroll-behavior: none;
-  position: fixed;
-  inset: 0;
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
   background: #03080F;
+  touch-action: manipulation;
 }
-input, textarea, select { -webkit-user-select: text; user-select: text; font-size: 16px; }
-button, a, .ni, .pcard, .chip, .fpill, .cl-card, .menu-i, .hdr-btn, .btn-ico, .btn-wa {
+input, textarea, select { font-size: 16px; -webkit-user-select: text; user-select: text; }
+button, a, .ni, .pcard, .chip, .fpill, .cl-card, .menu-i, .hdr-btn, .btn-ico, .btn-wa, .add-prop-fab {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-#app {
-  width: var(--app-w, 100dvw);
-  height: var(--app-h, 100svh) !important;
-  max-height: var(--app-h, 100svh) !important;
+#app, .screen {
+  width: var(--app-w); height: var(--app-h) !important;
+  max-height: var(--app-h) !important;
   overflow: hidden !important;
-  position: fixed;
-  inset: 0;
   transform: translateZ(0);
   backface-visibility: hidden;
-  background: var(--bg);
-}
-.screen {
-  width: var(--app-w, 100dvw);
-  height: var(--app-h, 100svh) !important;
-  max-height: var(--app-h, 100svh) !important;
-  overflow: hidden;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-.tab-content, .dt-body, .modal, .drw, .login-sheet {
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
 }
 #s-login {
-  height: var(--app-h, 100svh) !important;
-  max-height: var(--app-h, 100svh) !important;
+  height: var(--app-h) !important;
+  max-height: var(--app-h) !important;
   overflow: hidden !important;
   background: #03080F;
+  isolation: isolate;
 }
 .gal-wrap {
-  width: var(--app-w, 100dvw) !important;
-  height: var(--app-h, 100svh) !important;
-  max-height: var(--app-h, 100svh) !important;
+  width: var(--app-w) !important;
+  height: var(--app-h) !important;
+  max-height: var(--app-h) !important;
   overflow: hidden !important;
-  touch-action: pan-y;
+  touch-action: none;
 }
-.gal-track { height: var(--app-h, 100svh) !important; }
+.gal-track {
+  height: var(--app-h) !important;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+}
 .gal-slide {
-  width: var(--app-w, 100dvw) !important;
-  height: var(--app-h, 100svh) !important;
+  width: var(--app-w) !important;
+  height: var(--app-h) !important;
   background: #03080F;
-  contain: strict;
-}
-.gal-slide::before {
-  content: '';
-  position: absolute;
-  inset: -30px;
-  background-image: var(--slide-bg);
-  background-size: cover;
-  background-position: center center;
-  filter: blur(24px) saturate(1.12);
-  transform: scale(1.08);
-  opacity: 0;
-  transition: opacity .32s var(--ease);
-  z-index: 0;
-  pointer-events: none;
+  overflow: hidden;
 }
 .gal-slide img {
-  position: relative;
-  z-index: 1;
-  width: 100% !important;
-  height: 100% !important;
-  object-position: center center;
-  transform-origin: center center;
+  width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  filter: none !important;
+  transform: scale(1.055);
+  will-change: transform;
 }
-.gal-slide::after { z-index: 2; }
-.gal-info { z-index: 4; }
-.gal-bars, .gal-hint { z-index: 5; }
+.gal-slide.on img { transform: scale(1.015); }
+.gal-slide::after {
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.12) 0%,
+    rgba(0,0,0,0.02) 34%,
+    rgba(0,0,0,0.32) 60%,
+    rgba(3,8,15,0.82) 88%,
+    #03080F 100%
+  ) !important;
+}
+.gal-bars { top: max(env(safe-area-inset-top), 8px) !important; }
+.gal-hint span { white-space: nowrap; }
 .login-sheet {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-height: min(540px, 54svh) !important;
-  transform: translate3d(0,0,0);
+  max-height: min(560px, 58svh) !important;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  transform: translate3d(0, var(--sheet-drag-y), 0) !important;
+  transition:
+    transform .54s var(--spring),
+    max-height .36s var(--spring),
+    opacity .24s var(--ease),
+    box-shadow .24s var(--ease),
+    background .24s var(--ease) !important;
   will-change: transform, max-height;
   border-radius: 28px 28px 0 0;
-  padding-bottom: max(env(safe-area-inset-bottom), 18px);
+  animation: sheetUp .48s var(--spring) both;
 }
 .login-sheet.expanded,
 .login-sheet:focus-within {
-  max-height: min(740px, calc(var(--app-h, 100svh) - max(env(safe-area-inset-top), 10px) - 10px)) !important;
+  max-height: min(760px, calc(var(--app-h) - max(env(safe-area-inset-top), 10px) - 10px)) !important;
 }
-.sheet-handle { touch-action: none; }
+.login-sheet.dragging {
+  transition: none !important;
+  cursor: grabbing;
+}
+.login-sheet::-webkit-scrollbar { width: 0; height: 0; }
+.sheet-handle {
+  touch-action: none;
+  transition: width .22s var(--spring), background .22s var(--ease), box-shadow .22s var(--ease), transform .2s var(--spring);
+}
+.sheet-handle:active { transform: scaleX(1.22); }
 #s-login.photo-mode .login-sheet {
-  transform: translate3d(0, calc(100% - var(--login-peek) - env(safe-area-inset-bottom)), 0) !important;
-  max-height: min(520px, 62svh) !important;
-  opacity: .98;
+  transform: translate3d(0, calc(100% - var(--login-peek) - env(safe-area-inset-bottom) + var(--sheet-drag-y)), 0) !important;
+  max-height: min(620px, 70svh) !important;
   overflow: hidden !important;
-  background: rgba(6,13,24,.22) !important;
-  border-top: 1px solid rgba(255,255,255,.10) !important;
-  box-shadow: 0 -10px 38px rgba(0,0,0,.24) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(6,13,24,.78) !important;
+  border-top: 1px solid rgba(255,255,255,.13) !important;
+  box-shadow: 0 -16px 52px rgba(0,0,0,.36) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 #s-login.photo-mode .login-sheet > *:not(.sheet-handle) {
   opacity: 0 !important;
-  transform: translateY(18px) !important;
+  transform: translateY(14px) !important;
   pointer-events: none !important;
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
 }
 #s-login.photo-mode .sheet-handle {
   width: 58px !important;
   height: 5px !important;
-  margin: 14px auto 36px !important;
-  background: rgba(255,255,255,.68) !important;
-  box-shadow: 0 1px 0 rgba(0,0,0,.16), 0 0 18px rgba(255,255,255,.22) !important;
+  margin: 14px auto 34px !important;
+  background: rgba(255,255,255,.70) !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,.18), 0 0 20px rgba(255,255,255,.20) !important;
+  position: relative;
 }
-#s-login.photo-mode .sheet-handle::after { display: none !important; content: '' !important; }
-#s-login.photo-mode .gal-slide::before { opacity: .52; }
-#s-login.photo-mode .gal-slide::after {
-  background: linear-gradient(180deg, rgba(0,0,0,.06) 0%, rgba(0,0,0,0) 38%, rgba(0,0,0,.10) 100%) !important;
-}
-#s-login.photo-mode .gal-slide img {
-  object-fit: contain !important;
-  object-position: center center !important;
-  transform: scale(1) !important;
-  filter: saturate(1.03) contrast(1.02);
-}
-#s-login.photo-mode .gal-info {
-  opacity: 0 !important;
-  transform: translateY(14px) !important;
-  pointer-events: none !important;
-}
-#s-login.photo-mode .gal-bars {
-  top: max(env(safe-area-inset-top), 8px) !important;
-  opacity: .42 !important;
-}
-#s-login.photo-mode .gal-hint { opacity: 0 !important; pointer-events: none !important; }
-.photo-mode-chip {
-  position: fixed;
-  left: 50%;
-  bottom: calc(48px + env(safe-area-inset-bottom));
-  transform: translate3d(-50%, 18px, 0);
-  z-index: 80;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 13px;
+#s-login.photo-mode .sheet-handle::after {
+  content: 'Desliza arriba';
+  position: absolute;
+  left: 50%; top: 15px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 7px 12px;
   border-radius: 999px;
   background: rgba(0,0,0,.36);
   color: rgba(255,255,255,.88);
-  border: 1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   font: 700 10.5px/1 var(--f-mono);
   letter-spacing: .04em;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .22s var(--ease), transform .35s var(--spring);
 }
-#s-login.photo-mode .photo-mode-chip {
+#s-login.photo-mode .gal-slide::after {
+  background: linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,0) 44%, rgba(0,0,0,.42) 100%) !important;
+}
+#s-login.photo-mode .gal-slide img {
+  object-fit: cover !important;
+  filter: none !important;
+  transform: scale(1.005) !important;
+}
+#s-login.photo-mode .gal-info {
+  bottom: calc(82px + env(safe-area-inset-bottom));
   opacity: 1;
-  transform: translate3d(-50%, 0, 0);
+  transform: translateY(0);
+  transition: bottom .45s var(--spring), opacity .2s var(--ease), transform .45s var(--spring);
+}
+#s-login.photo-mode .gal-name { text-shadow: 0 3px 18px rgba(0,0,0,.45); }
+#s-login.photo-mode .gal-price { box-shadow: 0 8px 22px rgba(0,0,0,.18); }
+#s-login.photo-mode .gal-bars { opacity: .64; }
+#s-login.photo-mode .gal-hint { opacity: 0 !important; pointer-events: none !important; }
+.add-prop-fab {
+  width: 58px !important;
+  height: 58px !important;
+  right: 18px !important;
+  bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+  border: 1px solid rgba(3,8,15,.10) !important;
+  box-shadow: 0 5px 0 #00966A, 0 14px 30px rgba(0,229,160,.32), 0 0 0 7px rgba(0,229,160,.08) !important;
+  animation: pulseAqua 2.2s ease-in-out infinite;
+}
+.add-prop-fab svg { width: 23px !important; height: 23px !important; stroke-width: 2.6 !important; }
+.add-prop-fab:active {
+  transform: scale(.92) translateY(4px) !important;
+  box-shadow: 0 1px 0 #00966A, 0 6px 14px rgba(0,229,160,.24) !important;
 }
 @media (max-height: 700px) {
-  .login-sheet { max-height: min(500px, 52svh) !important; padding-left: 16px; padding-right: 16px; }
+  .login-sheet { max-height: min(530px, 56svh) !important; padding-left: 16px; padding-right: 16px; }
   .sheet-brand { margin-bottom: 12px; }
   .soc-row { margin-bottom: 10px; }
   .fg { margin-bottom: 8px; }
-  .fi { padding-top: 12px; padding-bottom: 12px; }
-  #s-login.photo-mode { --login-peek: 30px; }
+  #s-login.photo-mode { --login-peek: 52px; }
+  #s-login.photo-mode .gal-info { bottom: calc(76px + env(safe-area-inset-bottom)); }
 }
 @media (orientation: landscape) and (max-height: 560px) {
-  #app { visibility: hidden; pointer-events: none; }
-  .rotate-lock { display: flex !important; }
-}
-.rotate-lock {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(0,229,160,.18), transparent 36%),
-    #03080F;
-  color: #fff;
-  text-align: center;
-  font-family: var(--f-ui);
-}
-.rotate-card {
-  width: min(340px, 92vw);
-  padding: 26px 22px;
-  border-radius: 28px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 24px 80px rgba(0,0,0,.38);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-.rotate-ico {
-  width: 54px;
-  height: 54px;
-  margin: 0 auto 14px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  background: var(--aqua);
-  color: #03080F;
-  font-size: 26px;
-  box-shadow: 0 12px 40px rgba(0,229,160,.28);
-}
-.rotate-t { font-family: var(--f-display); font-size: 20px; font-weight: 800; letter-spacing: -.04em; margin-bottom: 6px; }
-.rotate-s { font-size: 13px; color: rgba(255,255,255,.66); line-height: 1.5; }
-@supports (height: 100dvh) {
-  :root { --app-h: 100dvh; }
+  #s-login::before {
+    content: 'Gira el celular para usar Propix en vertical';
+    position: fixed; inset: 0; z-index: 9999;
+    display: grid; place-items: center;
+    padding: 28px;
+    color: #fff;
+    text-align: center;
+    font: 700 18px/1.35 var(--f-display);
+    background: radial-gradient(circle at 50% 10%, rgba(0,229,160,.18), transparent 36%), #03080F;
+  }
 }
 
 </style>
@@ -1994,15 +1857,6 @@ button, a, .ni, .pcard, .chip, .fpill, .cl-card, .menu-i, .hdr-btn, .btn-ico, .b
 <button class="add-prop-fab" onclick="openAddProp()" title="Publicar propiedad">
   <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 </button>
-
-<div class="photo-mode-chip" id="photo-mode-chip">↑ Volver al login</div>
-<div class="rotate-lock" id="rotate-lock" aria-hidden="true">
-  <div class="rotate-card">
-    <div class="rotate-ico">📱</div>
-    <div class="rotate-t">Modo vertical</div>
-    <div class="rotate-s">Propix HQ está optimizada para móvil. Gira el teléfono para seguir usando la app estable.</div>
-  </div>
-</div>
 
 <script>
 /* ══════════════════════════════════════
@@ -3200,258 +3054,144 @@ document.querySelectorAll('.fi').forEach(inp => {
 });
 
 
-// ─── LOGIN PHOTO MODE: desliza abajo para ver la imagen completa ─────────────
-(function initLoginPhotoMode() {
-  const screen = document.getElementById('s-login');
-  const sheet  = document.getElementById('login-sheet');
-  const handle = document.getElementById('sheet-handle');
+// ─── LOGIN SHEET NATIVO: swipe arriba/abajo sin perder calidad ─────────────
+(function initNativeLoginSheet() {
+  const screen  = document.getElementById('s-login');
+  const sheet   = document.getElementById('login-sheet');
+  const handle  = document.getElementById('sheet-handle');
   const gallery = document.getElementById('gal-wrap');
   if (!screen || !sheet) return;
 
-  let startX = 0, startY = 0, startScroll = 0, touching = false;
-  let tipShown = false;
+  let startX = 0, startY = 0, lastY = 0, startScroll = 0;
+  let active = false, dragging = false, source = '';
+  let photoTipShown = false;
 
-  function point(e) {
-    return (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e;
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+  const point = e => (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e;
+  const isPhoto = () => screen.classList.contains('photo-mode');
+
+  function setDrag(px) {
+    screen.style.setProperty('--sheet-drag-y', `${Math.round(px)}px`);
   }
-
+  function clearDrag() {
+    sheet.classList.remove('dragging');
+    setDrag(0);
+  }
   function openPhotoMode() {
-    if (screen.classList.contains('photo-mode')) return;
     document.activeElement?.blur?.();
     sheet.classList.remove('expanded');
+    clearDrag();
     screen.classList.add('photo-mode');
-    if (!tipShown) {
-      tipShown = true;
+    if (!photoTipShown) {
+      photoTipShown = true;
       setTimeout(() => toast('info', 'Modo foto', 'Desliza arriba para volver al login'), 120);
     }
   }
-
   function closePhotoMode(expand = false) {
-    if (!screen.classList.contains('photo-mode')) return;
+    clearDrag();
     screen.classList.remove('photo-mode');
     if (expand) sheet.classList.add('expanded');
   }
 
-  function onStart(e) {
-    const t = point(e);
-    startX = t.clientX;
-    startY = t.clientY;
-    startScroll = sheet.scrollTop || 0;
-    touching = true;
+  function canStartFromSheet(e) {
+    const t = e.target;
+    if (t?.closest?.('input, textarea, select, button, a, .soc-btn, .stab-btn, .form-forgot, .sheet-thm')) return false;
+    return true;
   }
 
-  function onEnd(e) {
-    if (!touching) return;
-    touching = false;
-    const t = point(e);
-    const dx = t.clientX - startX;
-    const dy = t.clientY - startY;
-    if (Math.abs(dy) < 42 || Math.abs(dy) < Math.abs(dx) + 12) return;
+  function start(e, from) {
+    if (from === 'sheet' && !canStartFromSheet(e)) return;
+    const p = point(e);
+    startX = p.clientX;
+    startY = p.clientY;
+    lastY = startY;
+    startScroll = sheet.scrollTop || 0;
+    active = true;
+    dragging = false;
+    source = from;
+  }
 
-    if (dy > 0 && startScroll <= 4) {
-      openPhotoMode();
-    } else if (dy < 0) {
-      closePhotoMode(true);
+  function move(e) {
+    if (!active) return;
+    const p = point(e);
+    const dx = p.clientX - startX;
+    const dy = p.clientY - startY;
+    lastY = p.clientY;
+
+    if (!dragging) {
+      const verticalIntent = Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx) + 6;
+      if (!verticalIntent) return;
+      const canPullDown = !isPhoto() && dy > 0 && startScroll <= 3;
+      const canPullUp = isPhoto() && dy < 0;
+      if (!canPullDown && !canPullUp) return;
+      dragging = true;
+      sheet.classList.add('dragging');
+    }
+
+    if (dragging) {
+      e.cancelable && e.preventDefault();
+      if (isPhoto()) {
+        setDrag(clamp(dy, -260, 30));
+      } else {
+        setDrag(clamp(dy * 0.92, 0, 340));
+      }
     }
   }
 
+  function end(e) {
+    if (!active) return;
+    const p = point(e);
+    const dy = (p.clientY || lastY) - startY;
+    const shouldOpen = !isPhoto() && dy > 78 && startScroll <= 3;
+    const shouldClose = isPhoto() && dy < -62;
+
+    active = false;
+    if (dragging) {
+      dragging = false;
+      if (shouldOpen) openPhotoMode();
+      else if (shouldClose) closePhotoMode(false);
+      else clearDrag();
+    }
+  }
+
+  // El sheet baja con el dedo y vuelve con swipe hacia arriba.
   [sheet, handle].filter(Boolean).forEach(el => {
-    el.addEventListener('touchstart', onStart, { passive: true });
-    el.addEventListener('touchend', onEnd, { passive: true });
+    el.addEventListener('touchstart', e => start(e, 'sheet'), { passive: true });
+    el.addEventListener('touchmove', move, { passive: false });
+    el.addEventListener('touchend', end, { passive: true });
+    el.addEventListener('touchcancel', end, { passive: true });
     el.addEventListener('pointerdown', e => {
       if (e.pointerType === 'mouse') return;
-      startX = e.clientX; startY = e.clientY; startScroll = sheet.scrollTop || 0; touching = true;
+      start(e, 'sheet');
     }, { passive: true });
-    el.addEventListener('pointerup', onEnd, { passive: true });
+    el.addEventListener('pointermove', move, { passive: false });
+    el.addEventListener('pointerup', end, { passive: true });
+    el.addEventListener('pointercancel', end, { passive: true });
   });
 
-  // Cuando el sheet está escondido, tocar el handle o deslizar arriba lo trae de vuelta.
-  handle?.addEventListener('click', () => {
-    if (screen.classList.contains('photo-mode')) closePhotoMode(false);
-  });
+  // En modo foto, el swipe hacia arriba también funciona desde la imagen.
+  if (gallery) {
+    gallery.addEventListener('touchstart', e => start(e, 'gallery'), { passive: true });
+    gallery.addEventListener('touchmove', e => { if (isPhoto()) move(e); }, { passive: false });
+    gallery.addEventListener('touchend', end, { passive: true });
+    gallery.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse') return;
+      start(e, 'gallery');
+    }, { passive: true });
+    gallery.addEventListener('pointermove', e => { if (isPhoto()) move(e); }, { passive: false });
+    gallery.addEventListener('pointerup', end, { passive: true });
+  }
 
-  gallery?.addEventListener('touchstart', onStart, { passive: true });
-  gallery?.addEventListener('touchend', e => {
-    if (!screen.classList.contains('photo-mode')) return;
-    const t = point(e);
-    const dy = t.clientY - startY;
-    if (dy < -42) closePhotoMode(false);
-  }, { passive: true });
+  handle?.addEventListener('click', () => isPhoto() ? closePhotoMode(false) : openPhotoMode());
+
+  // Bloqueo vertical cuando el navegador/PWA lo permite. Si no, el CSS mantiene la pantalla estable.
+  const tryLockPortrait = () => {
+    try { screen.orientation?.lock?.('portrait').catch(() => {}); } catch (_) {}
+  };
+  document.addEventListener('touchstart', tryLockPortrait, { passive: true, once: true });
+  document.addEventListener('pointerdown', tryLockPortrait, { passive: true, once: true });
 
   window.exitLoginPhotoMode = () => closePhotoMode(false);
-})();
-
-
-// ─── PROPIX HQ v6: native mobile feel + portrait lock + full photo mode ─────
-(function initV6MobileNativePatch() {
-  const root = document.documentElement;
-  const app = document.getElementById('app');
-  const screen = document.getElementById('s-login');
-  const sheet = document.getElementById('login-sheet');
-  const gallery = document.getElementById('gal-wrap');
-  const track = document.getElementById('gal-track');
-  const chip = document.getElementById('photo-mode-chip');
-
-  const isTouchDevice = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-  let stableW = Math.round(window.innerWidth || document.documentElement.clientWidth || 390);
-  let stableH = Math.round(window.innerHeight || document.documentElement.clientHeight || 844);
-  let lastOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
-
-  function setStableViewport(force = false) {
-    const vv = window.visualViewport;
-    const active = document.activeElement;
-    const formFocused = !!active && ['INPUT','TEXTAREA','SELECT'].includes(active.tagName);
-    const w = Math.round(window.innerWidth || document.documentElement.clientWidth || stableW);
-    const h = Math.round(window.innerHeight || document.documentElement.clientHeight || stableH);
-    const orientation = w > h ? 'landscape' : 'portrait';
-
-    if (force || orientation !== lastOrientation) {
-      stableW = w;
-      stableH = h;
-      lastOrientation = orientation;
-    } else if (!formFocused && !isTouchDevice) {
-      stableW = w;
-      stableH = h;
-    }
-
-    root.style.setProperty('--app-w', `${stableW}px`);
-    root.style.setProperty('--app-h', `${stableH}px`);
-    if (vv && formFocused) {
-      const keyboardH = Math.max(0, stableH - Math.round(vv.height));
-      root.style.setProperty('--keyboard-h', `${keyboardH}px`);
-    } else {
-      root.style.setProperty('--keyboard-h', '0px');
-    }
-  }
-
-  function tryLockPortrait() {
-    try {
-      if (screen?.orientation?.lock) screen.orientation.lock('portrait').catch(() => {});
-    } catch (_) {}
-  }
-
-  function installManifest() {
-    if (document.querySelector('link[rel="manifest"]')) return;
-    try {
-      const manifest = {
-        name: 'Propix HQ',
-        short_name: 'Propix',
-        start_url: '.',
-        scope: '.',
-        display: 'standalone',
-        orientation: 'portrait',
-        theme_color: '#03080F',
-        background_color: '#03080F',
-        lang: 'es'
-      };
-      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-      const link = document.createElement('link');
-      link.rel = 'manifest';
-      link.href = URL.createObjectURL(blob);
-      document.head.appendChild(link);
-    } catch (_) {}
-  }
-
-  function prepareFullPhotoBackgrounds() {
-    document.querySelectorAll('.gal-slide').forEach(slide => {
-      const img = slide.querySelector('img');
-      if (!img) return;
-      const url = img.currentSrc || img.src;
-      slide.style.setProperty('--slide-bg', `url("${url}")`);
-      img.addEventListener('load', () => {
-        const loadedUrl = img.currentSrc || img.src;
-        slide.style.setProperty('--slide-bg', `url("${loadedUrl}")`);
-      }, { once: true });
-    });
-  }
-
-  function recenterGallery() {
-    const slides = track ? [...track.querySelectorAll('.gal-slide')] : [];
-    const current = Math.max(0, slides.findIndex(s => s.classList.contains('on')));
-    if (track && current >= 0) {
-      track.style.transform = `translate3d(${-current * stableW}px,0,0)`;
-    }
-  }
-
-  function openPhotoModeV6() {
-    if (!screen || !sheet) return;
-    document.activeElement?.blur?.();
-    sheet.classList.remove('expanded');
-    screen.classList.add('photo-mode');
-    prepareFullPhotoBackgrounds();
-    setStableViewport(true);
-    recenterGallery();
-  }
-
-  function closePhotoModeV6(expand = false) {
-    if (!screen || !sheet) return;
-    screen.classList.remove('photo-mode');
-    if (expand) sheet.classList.add('expanded');
-    setStableViewport(true);
-    recenterGallery();
-  }
-
-  window.PropixMobile = Object.assign(window.PropixMobile || {}, {
-    openPhotoMode: openPhotoModeV6,
-    closePhotoMode: closePhotoModeV6,
-    refreshViewport: () => setStableViewport(true),
-    lockPortrait: tryLockPortrait
-  });
-
-  setStableViewport(true);
-  installManifest();
-  prepareFullPhotoBackgrounds();
-  tryLockPortrait();
-
-  window.addEventListener('resize', () => setStableViewport(false), { passive: true });
-  window.visualViewport?.addEventListener('resize', () => setStableViewport(false), { passive: true });
-  window.addEventListener('orientationchange', () => setTimeout(() => { setStableViewport(true); tryLockPortrait(); recenterGallery(); }, 220), { passive: true });
-  document.addEventListener('pointerdown', tryLockPortrait, { passive: true, once: true });
-  document.addEventListener('touchstart', tryLockPortrait, { passive: true, once: true });
-
-  // Make the photo gesture stronger: pull down anywhere on the login sheet to reveal the full image.
-  let sy = 0, sx = 0, startScroll = 0, tracking = false;
-  function getPoint(e) { return (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e; }
-  function start(e) {
-    const p = getPoint(e);
-    sy = p.clientY; sx = p.clientX;
-    startScroll = sheet?.scrollTop || 0;
-    tracking = true;
-  }
-  function move(e) {
-    if (!tracking || !screen || !sheet) return;
-    const p = getPoint(e);
-    const dy = p.clientY - sy;
-    const dx = p.clientX - sx;
-    if (!screen.classList.contains('photo-mode') && dy > 12 && startScroll <= 2 && Math.abs(dy) > Math.abs(dx) + 8) {
-      sheet.style.transform = `translate3d(0, ${Math.min(120, dy * .38)}px, 0)`;
-    }
-  }
-  function end(e) {
-    if (!tracking || !screen || !sheet) return;
-    tracking = false;
-    sheet.style.transform = '';
-    const p = getPoint(e);
-    const dy = p.clientY - sy;
-    const dx = p.clientX - sx;
-    if (Math.abs(dy) < 38 || Math.abs(dy) < Math.abs(dx) + 10) return;
-    if (!screen.classList.contains('photo-mode') && dy > 0 && startScroll <= 4) openPhotoModeV6();
-    else if (screen.classList.contains('photo-mode') && dy < 0) closePhotoModeV6(false);
-  }
-  if (sheet) {
-    sheet.addEventListener('touchstart', start, { passive: true });
-    sheet.addEventListener('touchmove', move, { passive: true });
-    sheet.addEventListener('touchend', end, { passive: true });
-  }
-  if (gallery) {
-    gallery.addEventListener('touchstart', start, { passive: true });
-    gallery.addEventListener('touchend', e => {
-      if (!screen?.classList.contains('photo-mode')) return;
-      const p = getPoint(e);
-      if (p.clientY - sy < -36) closePhotoModeV6(false);
-    }, { passive: true });
-  }
-  chip?.addEventListener('click', () => closePhotoModeV6(false));
 })();
 
 </script>
